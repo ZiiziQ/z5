@@ -1,0 +1,106 @@
+/* Główny motyw */
+body { 
+    background-color: #0d1117; 
+    color: #c9d1d9; 
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+}
+
+/* Pasek nawigacji */
+.navbar { 
+    min-height: 40px; 
+    font-size: 15px; 
+}
+
+/* Główne okno aplikacji */
+.sekcja1 {
+    height: auto; 
+    width: auto; 
+    text-align: left;
+    border: 1px solid #2ea043;
+    margin-top: 80px; 
+    margin-left: 15px; 
+    margin-right: 15px; 
+    margin-bottom: 60px;
+    padding: 20px;
+    background-color: #161b22;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(46, 160, 67, 0.15);
+}
+
+.sekcja1 h2, .sekcja1 h3 {
+    color: #4af626;
+    border-bottom: 1px dashed #2ea043;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.sekcja1 a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.sekcja1 a:hover {
+    color: #79c0ff;
+    text-decoration: underline;
+}
+
+/* Stopka */
+.page-footer {
+    height: 30px; 
+    width: 100%; 
+    font-size: 12px; 
+    color: #4af626;
+    border-top: 1px solid #2ea043;
+    padding: 5px 15px;
+    background-color: #0d1117 !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+/* Tabele w stylu */
+table {
+    border-collapse: collapse; 
+    width: 100%; 
+    margin-top: 15px; 
+    font-size: 14px;
+    color: #c9d1d9;
+}
+th, td { 
+    border: 1px solid #30363d; 
+    padding: 10px; 
+    text-align: left; 
+}
+th { 
+    background-color: #21262d; 
+    color: #4af626;
+}
+tr:hover {
+    background-color: #1c2128;
+}
+
+/* Formularze i przyciski */
+.form-control {
+    background-color: #0d1117;
+    color: #4af626;
+    border: 1px solid #30363d;
+}
+.form-control:focus {
+    background-color: #161b22;
+    color: #4af626;
+    border-color: #2ea043;
+    box-shadow: 0 0 5px rgba(46, 160, 67, 0.5);
+}
+.form-label {
+    color: #8b949e;
+}
+.btn-primary {
+    background-color: #238636;
+    border-color: #2ea043;
+    color: #ffffff;
+    font-weight: bold;
+}
+.btn-primary:hover {
+    background-color: #2ea043;
+    border-color: #3fb950;
+}
