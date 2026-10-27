@@ -12,13 +12,13 @@ $username = $_SESSION['username'] ?? 'Użytkowniku';
 $home_dir = $_SESSION['home_dir'] ?? $username;
 $current_dir = $_SESSION['current_dir'] ?? $home_dir;
 
-// Bezpieczeństwo: upewnienie się, że katalog bazowy istnieje
+// Czy katalog bazowy istnieje
 $full_home_path = __DIR__ . '/' . $home_dir;
 if (!file_exists($full_home_path)) {
     mkdir($full_home_path, 0777, true);
 }
 
-// Bezpieczeństwo przed wyjściem poza własny folder (Directory Traversal)
+// Czy mogę wyjść poza własny folder 
 $full_current_path = realpath(__DIR__ . '/' . $current_dir);
 $real_home_path = realpath($full_home_path);
 if ($full_current_path === false || strpos($full_current_path, $real_home_path) !== 0) {
@@ -56,7 +56,7 @@ $items = array_diff($items, array('.', '..')); // ukrywamy kropki
             </div>
         </section>
 
-        <!-- OSTRZEŻENIE O BŁĘDNYCH LOGOWANIACH (Brute-force) -->
+        <!-- Ostrzeżenie o błędnych logowaniach (Brute-force) -->
         <?php if (isset($_SESSION['login_warning'])): ?>
             <div class="alert alert-danger fw-bold">
                 <?php 
@@ -67,32 +67,32 @@ $items = array_diff($items, array('.', '..')); // ukrywamy kropki
         <?php endif; ?>
 
         <section class="sekcja1">
-            <h4 style="color: #d2a8ff;">> Eksplorator plików: <code>/<?php echo htmlspecialchars($current_dir); ?></code></h4>
+            <h4>Eksplorator plików: <code>/<?php echo htmlspecialchars($current_dir); ?></code></h4>
             
             <div class="d-flex gap-3 mb-3 mt-3 align-items-center">
-                <!-- Ikona Level Up (powrót) widoczna tylko w podkatalogach -->
+                <!-- Ikona powrót widoczna tylko w podkatalogach -->
                 <?php if ($current_dir !== $home_dir): ?>
                     <a href="nawigacja.php?akcja=up" class="btn btn-secondary btn-sm">[Wróć wyżej]</a>
                 <?php endif; ?>
 
                 <!-- Przycisk tworzenia folderu (tylko w katalogu macierzystym) -->
                 <?php if ($current_dir === $home_dir): ?>
-                    <form action="akcje.php" method="POST" class="d-flex gap-2 mb-0">
+                    <form action="akcja.php" method="POST" class="d-flex gap-2 mb-0">
                         <input type="hidden" name="akcja" value="mkdir">
                         <input type="text" name="folder_name" class="form-control form-control-sm" placeholder="Nazwa folderu" required pattern="[a-zA-Z0-9]+">
-                        <button type="submit" class="btn btn-warning btn-sm">Stwórz</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Stwórz</button>
                     </form>
                 <?php endif; ?>
             </div>
 
             <!-- Upload plików -->
-            <form action="upload.php" method="POST" enctype="multipart/form-data" class="mb-4 d-flex gap-2 p-3" style="background: #21262d; border-radius: 6px;">
+            <form action="upload.php" method="POST" enctype="multipart/form-data" class="mb-4 d-flex gap-2 p-3">
                 <input type="file" name="fileToUpload" class="form-control form-control-sm" required>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Wgraj plik</button>
             </form>
 
             <!-- Lista plików i katalogów -->
-            <table class="table table-dark table-hover text-start">
+            <table class="table table-hover text-start">
                 <thead>
                     <tr>
                         <th>Typ</th>
@@ -113,20 +113,20 @@ $items = array_diff($items, array('.', '..')); // ukrywamy kropki
                                 <td><?php echo $is_dir ? '📁' : '📄'; ?></td>
                                 <td>
                                     <?php if ($is_dir): ?>
-                                        <a href="nawigacja.php?dir=<?php echo urlencode($safe_item); ?>" style="color: #58a6ff; text-decoration: none;">
+                                        <a href="nawigacja.php?dir=<?php echo urlencode($safe_item); ?>" style="text-decoration: none;">
                                             <?php echo $safe_item; ?>
                                         </a>
                                     <?php else: ?>
-                                        <a href="<?php echo $current_dir . '/' . $safe_item; ?>" target="_blank" style="color: #c9d1d9; text-decoration: none;">
+                                        <a href="<?php echo $current_dir . '/' . $safe_item; ?>" target="_blank" style="text-decoration: none;">
                                             <?php echo $safe_item; ?>
                                         </a>
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-end">
-                                    <form action="akcje.php" method="POST" style="display:inline;">
+                                    <form action="akcja.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="akcja" value="<?php echo $is_dir ? 'rmdir' : 'unlink'; ?>">
                                         <input type="hidden" name="target" value="<?php echo $safe_item; ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm py-0 px-2" onclick="return confirm('Na pewno usunąć?');">🗑 Usuń</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm py-0 px-2" onclick="return confirm('Na pewno usunąć?');">🗑 Usuń</button>
                                     </form>
                                 </td>
                             </tr>

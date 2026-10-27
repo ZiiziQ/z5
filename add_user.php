@@ -5,7 +5,7 @@ $user = htmlentities($_POST['user'] ?? '', ENT_QUOTES, "UTF-8");
 $pass = htmlentities($_POST['pass'] ?? '', ENT_QUOTES, "UTF-8");
 $pass2 = htmlentities($_POST['pass2'] ?? '', ENT_QUOTES, "UTF-8");
 
-// NOWOŚĆ: Walidacja loginu - tylko litery i cyfry (wymóg MyCloud)[cite: 11]
+// Walidacja loginu - tylko litery i cyfry 
 if (!preg_match('/^[a-zA-Z0-9]+$/', $user)) {
     die("Błąd: Login może zawierać tylko litery i cyfry! <a href='rejestracja.php'>Wróć</a>");
 }
@@ -16,7 +16,7 @@ if ($pass !== $pass2) {
 
 $avatarName = "default.png";
 
-// Obsługa pliku awatara (zostawiamy Twoją logikę)
+// Obsługa pliku awatara 
 if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
     $fileTmp = $_FILES['avatar']['tmp_name'];
     $fileName = basename($_FILES['avatar']['name']);
@@ -42,7 +42,7 @@ if (!$link) {
 }
 mysqli_query($link, "SET NAMES 'utf8'");
 
-// Bezpieczne sprawdzanie czy użytkownik istnieje
+// Czy użytkownik istnieje
 $stmt_check = mysqli_prepare($link, "SELECT id FROM users WHERE username = ?");
 mysqli_stmt_bind_param($stmt_check, "s", $user);
 mysqli_stmt_execute($stmt_check);
@@ -54,16 +54,16 @@ if (mysqli_stmt_num_rows($stmt_check) > 0) {
 }
 mysqli_stmt_close($stmt_check);
 
-// Hashowanie hasła (najlepsza praktyka)
+// Hashowanie hasła 
 $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-// Bezpieczne dodawanie użytkownika (dodaję pole worker = 0 na wypadek, gdybyś zaimportował pełną tabelę z z4)
+// Dodawanie użytkownika 
 $stmt_insert = mysqli_prepare($link, "INSERT INTO users (username, password, avatar, worker) VALUES (?, ?, ?, 0)");
 mysqli_stmt_bind_param($stmt_insert, "sss", $user, $hash, $avatarName);
 
 if (mysqli_stmt_execute($stmt_insert)) {
     
-    // NOWOŚĆ: TWORZENIE PRYWATNEGO KATALOGU MACIERZYSTEGO[cite: 11]
+    // Tworzenie prywatnego katalogu macierzystego
     $user_dir = __DIR__ . '/' . $user;
     if (!file_exists($user_dir)) {
         mkdir($user_dir, 0777, true);

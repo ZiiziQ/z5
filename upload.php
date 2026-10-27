@@ -7,13 +7,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 if (isset($_POST["submit"]) && isset($_FILES["fileToUpload"])) {
-    $current_dir = $_SESSION['current_dir']; // Pobieramy aktualny katalog[cite: 12]
+    $current_dir = $_SESSION['current_dir']; // Pobieramy aktualny katalog
     $target_dir = __DIR__ . '/' . $current_dir;
     $target_file = $target_dir . '/' . basename($_FILES["fileToUpload"]["name"]);
 
-    // Zgodnie z wytycznymi NIE ograniczamy typu pliku ani rozmiaru[cite: 13]
+    // Bez ograniczenia typu pliku ani rozmiaru
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        // Plik wgrany poprawnie[cite: 12]
+        // Plik wgrany poprawnie
     } else {
         // Błąd wgrywania
     }
